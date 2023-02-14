@@ -32,8 +32,10 @@ public class UserProfileRouter {
         }
 
         Mono<ServerResponse> createUser(ServerRequest request) {
-                // TODO
-                return ServerResponse.ok().build();
+                return request.bodyToMono(CreateUserRequest.class)
+                                .map(CreateUserRequest::toEntity)
+                                .flatMap(body -> ServerResponse.ok()
+                                                .body(this.userProfileComponent.createUser(body), UserProfileEntity.class));
         }
 
         Mono<ServerResponse> deleteUser(ServerRequest request) {

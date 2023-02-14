@@ -14,15 +14,23 @@ public class UserProfileRepositoryImpl implements UserProfileRepository {
     }
 
     @Override
-    public Mono<UserProfileEntity> retrieveUserById(Long id) {
+    public Mono<UserProfileEntity> findUserById(Long id) {
         return this.jpaRepository.findById(id)
-                .map(el -> UserProfileEntity.builder()
-                        .id(el.getId())
-                        .userName(el.getUserName())
-                        .name(el.getName())
-                        .surname(el.getSurname())
-                        .description(el.getDescription())
-                        .build());
+                .map(UserProfileModel::toEntity);
+    }
+
+    @Override
+    public Mono<UserProfileEntity> findUserByUsername(String username) {
+        return this.jpaRepository.findByUserName(username)
+                .map(UserProfileModel::toEntity);
+    }
+
+    @Override
+    public Mono<UserProfileEntity> saveUser(UserProfileEntity entity) {
+        return Mono.just(entity)
+                .map(UserProfileModel::fromEntity)
+                .flatMap(this.jpaRepository::save)
+                .map(UserProfileModel::toEntity);
     }
 
 }

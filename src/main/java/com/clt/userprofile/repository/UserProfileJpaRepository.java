@@ -7,5 +7,5 @@ import reactor.core.publisher.Mono;
 public interface UserProfileJpaRepository extends ReactiveCrudRepository<UserProfileModel, Long>{
 
     Mono<UserProfileModel> findById(Long id);
-    
+    Mono<UserProfileModel> findByUserName(String username);    
 }

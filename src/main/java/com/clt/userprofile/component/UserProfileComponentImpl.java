@@ -2,6 +2,9 @@ package com.clt.userprofile.component;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.clt.userprofile.error.UserProfileException;
+import com.clt.userprofile.error.UserProfileNotFoundException;
+
 import reactor.core.publisher.Mono;
 
 public class UserProfileComponentImpl implements UserProfileComponent {
@@ -14,7 +17,8 @@ public class UserProfileComponentImpl implements UserProfileComponent {
 
     @Override
     public Mono<UserProfileEntity> retrieveUserProfile(String userId) {
-        return this.userProfileRepository.findUserById(Long.valueOf(userId));
+        return this.userProfileRepository.findUserById(Long.valueOf(userId))
+        .switchIfEmpty(Mono.error(() -> new UserProfileNotFoundException("The user does not exist")));
     }
 
     @Override
@@ -25,7 +29,7 @@ public class UserProfileComponentImpl implements UserProfileComponent {
                 .defaultIfEmpty(newUser)
                 .flatMap(el -> {
                     if (el.getId() != null)
-                        return Mono.error(() -> new IllegalArgumentException("UserAlready Exists"));
+                        return Mono.error(() -> new UserProfileException("User Already Exists"));
                     return userProfileRepository.saveUser(el);
                 });
     }
@@ -36,7 +40,7 @@ public class UserProfileComponentImpl implements UserProfileComponent {
             return Mono.error(new IllegalArgumentException("User id can't be null or empty"));
         return userProfileRepository.findUserById(user.getId())
                 .switchIfEmpty(
-                        Mono.error(() -> new IllegalArgumentException("Trying to update a user that does not exists")))
+                        Mono.error(() -> new UserProfileException("Trying to update a user that does not exists")))
                 .transform(el -> Mono.just(user))
                 .flatMap(userProfileRepository::saveUser)
                 .log();

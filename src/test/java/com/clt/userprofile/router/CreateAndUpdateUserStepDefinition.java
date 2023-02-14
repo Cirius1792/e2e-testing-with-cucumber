@@ -27,37 +27,37 @@ public class CreateAndUpdateUserStepDefinition {
     private Map<String, EntityExchangeResult> results = new HashMap<>();
 
     @Given("a new user having username {string}")
-    public void a_new_user_having_username(String string) {
+    public void a_new_user_having_username(String username) {
         var user = UserProfileEntity.builder()
-                .userName(string)
+                .userName(username)
                 .build();
-        this.users.put(string, user);
+        this.users.put(username, user);
     }
 
     @Given("exists a user having username {string}")
-    public void exists_a_user_having_username(String string) {
+    public void exists_a_user_having_username(String username) {
         var driver = new UserApplicationDriver(client);
-        driver.createUser(Map.of(UserApplicationDriver.UserParametersEnum.USERNAME, string));
+        driver.createUser(Map.of(UserApplicationDriver.UserParametersEnum.USERNAME, username));
     }
 
     @When("the user having username {string} tries to register")
-    public void the_new_tries_to_register(String string) {
+    public void the_new_tries_to_register(String username) {
         CreateUserRequest request = new CreateUserRequest();
-        request.setUserName(string);
+        request.setUserName(username);
         var result = client.post().uri("/profile")
                 .body(Mono.just(request), CreateUserRequest.class)
                 .exchange()
                 .expectBody(UserProfileEntity.class)
                 .returnResult();
-        this.results.put(string, result);
+        this.results.put(username, result);
     }
 
     @Then("the outcome of the registration of {string} is {string}")
-    public void the_outcome_of_the_registration_of_is(String string, String string2) {
-        if ("OK".equals(string2))
-            Assertions.assertTrue(this.results.get(string).getStatus().is2xxSuccessful());
+    public void the_outcome_of_the_registration_of_is(String username, String outcome) {
+        if ("OK".equals(outcome))
+            Assertions.assertTrue(this.results.get(username).getStatus().is2xxSuccessful());
         else
-            Assertions.assertTrue(this.results.get(string).getStatus().isError());
+            Assertions.assertTrue(this.results.get(username).getStatus().isError());
     }
 
 }

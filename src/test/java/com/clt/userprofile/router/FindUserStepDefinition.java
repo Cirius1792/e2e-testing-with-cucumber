@@ -26,22 +26,22 @@ public class FindUserStepDefinition {
     private String userId;
 
     @Given("An existing user having id {string}")
-    public void an_existing_user_having_id(String string) {
+    public void an_existing_user_having_id(String userId) {
         var driver = new UserApplicationDriver(client);
         var user = driver.createUser(Map.of());
-        this.idMapping.put(string, user.getId());
+        this.idMapping.put(userId, user.getId());
         this.userId = String.valueOf(user.getId());
     }
 
     @Given("A not existing user having id {string}")
-    public void a_not_existing_user_having_id(String string) {
-        this.userId = string;
+    public void a_not_existing_user_having_id(String userId) {
+        this.idMapping.put(userId, Long.valueOf(userId));
         //TODO: Cancellazione dell'utente se già esiste
     }
 
     @When("I look for the user {string}")
-    public void i_lookfor_the_user(String string) {
-        invocationResult = client.get().uri("/profile/"+this.idMapping.get(string))
+    public void i_look_for_the_user(String userId) {
+        invocationResult = client.get().uri("/profile/"+this.idMapping.get(userId))
                 .exchange()
                 .expectBody(String.class)
                 .returnResult();

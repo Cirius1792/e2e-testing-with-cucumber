@@ -56,9 +56,10 @@
 
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-webflux-ui</artifactId>
-            <version>1.6.13</version>
-        </dependency>
+            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+            <version>2.0.2</version>
+        </dependency>    
+
 
         <dependency>
             <groupId>io.r2dbc</groupId>

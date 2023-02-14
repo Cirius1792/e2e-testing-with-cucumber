@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import io.micrometer.core.instrument.step.StepValue;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 

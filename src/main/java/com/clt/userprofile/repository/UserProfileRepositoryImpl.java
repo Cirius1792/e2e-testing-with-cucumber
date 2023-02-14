@@ -21,7 +21,7 @@ public class UserProfileRepositoryImpl implements UserProfileRepository {
 
     @Override
     public Mono<UserProfileEntity> findUserByUsername(String username) {
-        return this.jpaRepository.findByUserName(username)
+        return this.jpaRepository.findByUsername(username)
                 .map(UserProfileModel::toEntity);
     }
 

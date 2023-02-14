@@ -2,8 +2,8 @@ Feature: Can create and update Users
 
   Scenario: Create a new user
     Given a new user having username "mario.rossi"
-    When the user having username "mario.verdi" tries to register
-    Then the outcome of the registration of "mario.rossi" is "KO"
+    When the user having username "mario.rossi" tries to register
+    Then the outcome of the registration of "mario.rossi" is "OK"
 
   Scenario: Create a new user with an already registered account
     Given a new user having username "mario.verdi"

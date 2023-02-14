@@ -15,6 +15,7 @@ import com.clt.userprofile.UserApplicationDriver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+
 public class FindUserStepDefinition {
 
     @Autowired
@@ -22,27 +23,34 @@ public class FindUserStepDefinition {
 
     private Map<String, Long> idMapping = new HashMap<>();
     EntityExchangeResult invocationResult;
+    private String userId;
 
-    @Given("A user having id {string}")
-    public void a_user_having_id(String string) {
+    @Given("An existing user having id {string}")
+    public void an_existing_user_having_id(String string) {
         var driver = new UserApplicationDriver(client);
         var user = driver.createUser(Map.of());
         this.idMapping.put(string, user.getId());
+        this.userId = String.valueOf(user.getId());
     }
 
-    @When("I lookfor the user")
-    public void i_lookfor_the_user() {
-        invocationResult = client.get().uri("/profile")
+    @Given("A not existing user having id {string}")
+    public void a_not_existing_user_having_id(String string) {
+        this.userId = string;
+        //TODO: Cancellazione dell'utente se già esiste
+    }
+
+    @When("I look for the user {string}")
+    public void i_lookfor_the_user(String string) {
+        invocationResult = client.get().uri("/profile/"+this.idMapping.get(string))
                 .exchange()
                 .expectBody(String.class)
                 .returnResult();
 
     }
 
-    @Then("I should receive receive {string}")
-    public void i_should_receive_receive(String string) {
-        HttpStatus status = HttpStatus.valueOf(string);
-        Assertions.assertEquals(status, invocationResult.getStatus());
+    @Then("I should receive receive {int}")
+    public void i_should_receive_receive(int status) {
+        Assertions.assertEquals(status, invocationResult.getStatus().value());
     }
 
 }

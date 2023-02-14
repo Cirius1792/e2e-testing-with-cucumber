@@ -14,10 +14,12 @@ import com.clt.userprofile.component.UserProfileEntity;
 import com.clt.userprofile.router.request.CreateUserRequest;
 
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 public class UserProfileRouter {
-        static final String USER_ID_QUERY_PARAM = "userId";
+        static final String USER_ID_PATH_PARAM = "id";
         static final String USER_TAG_SWAGGER = "User Profile";
         final UserProfileComponent userProfileComponent;
 
@@ -26,7 +28,7 @@ public class UserProfileRouter {
         }
 
         Mono<ServerResponse> getUser(ServerRequest request) {
-                String userId = request.pathVariable(USER_ID_QUERY_PARAM);
+                String userId = request.pathVariable(USER_ID_PATH_PARAM);
                 return ServerResponse.ok()
                                 .body(this.userProfileComponent.retrieveUserProfile(userId), UserProfileEntity.class);
         }
@@ -50,16 +52,13 @@ public class UserProfileRouter {
 
         public RouterFunction<ServerResponse> userProfileApis() {
                 return route()
-                                .GET("/profile", this::getUser,
+                                .GET(String.format("/profile/{%s}", USER_ID_PATH_PARAM), this::getUser,
                                                 ops -> ops.operationId("getUser")
-                                                                .tag(USER_TAG_SWAGGER)
-                                                                .response(responseBuilder().responseCode("200")
-                                                                                .implementation(UserProfileEntity.class))
-                                                                .response(responseBuilder().responseCode("404")
-                                                                                .description("The user does not exists"))
-                                                                .parameter(parameterBuilder().in(ParameterIn.PATH)
-                                                                                .name(USER_ID_QUERY_PARAM)
-                                                                                .description("User Id")))
+                                                .tag(USER_TAG_SWAGGER)
+                                                .parameter(parameterBuilder().in(ParameterIn.PATH).name(USER_ID_PATH_PARAM).description("User Id"))
+                                                .response(responseBuilder().responseCode("200").implementation(UserProfileEntity.class))
+                                                .response(responseBuilder().responseCode("404").description("The user does not exists"))
+                                                )
                                 .POST("/profile", this::createUser,
                                                 ops -> ops.operationId("createUser")
                                                                 .tag(USER_TAG_SWAGGER)
@@ -79,7 +78,7 @@ public class UserProfileRouter {
                                                                 .response(responseBuilder().responseCode("404")
                                                                                 .description("The user does not exists"))
                                                                 .parameter(parameterBuilder().in(ParameterIn.PATH)
-                                                                                .name(USER_ID_QUERY_PARAM)
+                                                                                .name(USER_ID_PATH_PARAM)
                                                                                 .description("User Id")))
                                 .PATCH("/profile", this::updateUser,
                                                 ops -> ops.operationId("getUser")
@@ -89,7 +88,7 @@ public class UserProfileRouter {
                                                                 .response(responseBuilder().responseCode("404")
                                                                                 .description("The user does not exists"))
                                                                 .parameter(parameterBuilder().in(ParameterIn.PATH)
-                                                                                .name(USER_ID_QUERY_PARAM)
+                                                                                .name(USER_ID_PATH_PARAM)
                                                                                 .description("User Id")))
                                 .build();
         }

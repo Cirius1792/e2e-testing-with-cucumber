@@ -37,7 +37,8 @@ public class UserProfileRouter {
                 return request.bodyToMono(CreateUserRequest.class)
                                 .map(CreateUserRequest::toEntity)
                                 .flatMap(body -> ServerResponse.ok()
-                                                .body(this.userProfileComponent.createUser(body), UserProfileEntity.class));
+                                                .body(this.userProfileComponent.createUser(body),
+                                                                UserProfileEntity.class));
         }
 
         Mono<ServerResponse> deleteUser(ServerRequest request) {
@@ -46,19 +47,31 @@ public class UserProfileRouter {
         }
 
         Mono<ServerResponse> updateUser(ServerRequest request) {
-                // TODO
-                return ServerResponse.ok().build();
+                return request.bodyToMono(CreateUserRequest.class)
+                                .map(req -> UserProfileEntity.builder()
+                                                .id(Long.valueOf(request.pathVariable(USER_ID_PATH_PARAM)))
+                                                .userName(req.getUserName())
+                                                .name(req.getName())
+                                                .surname(req.getSurname())
+                                                .description(req.getDescription())
+                                                .build())
+                                .flatMap(newData -> ServerResponse.ok()
+                                                .body(userProfileComponent.updateUser(newData),
+                                                                UserProfileEntity.class));
         }
 
         public RouterFunction<ServerResponse> userProfileApis() {
                 return route()
                                 .GET(String.format("/profile/{%s}", USER_ID_PATH_PARAM), this::getUser,
                                                 ops -> ops.operationId("getUser")
-                                                .tag(USER_TAG_SWAGGER)
-                                                .parameter(parameterBuilder().in(ParameterIn.PATH).name(USER_ID_PATH_PARAM).description("User Id"))
-                                                .response(responseBuilder().responseCode("200").implementation(UserProfileEntity.class))
-                                                .response(responseBuilder().responseCode("404").description("The user does not exists"))
-                                                )
+                                                                .tag(USER_TAG_SWAGGER)
+                                                                .parameter(parameterBuilder().in(ParameterIn.PATH)
+                                                                                .name(USER_ID_PATH_PARAM)
+                                                                                .description("User Id"))
+                                                                .response(responseBuilder().responseCode("200")
+                                                                                .implementation(UserProfileEntity.class))
+                                                                .response(responseBuilder().responseCode("404")
+                                                                                .description("The user does not exists")))
                                 .POST("/profile", this::createUser,
                                                 ops -> ops.operationId("createUser")
                                                                 .tag(USER_TAG_SWAGGER)
@@ -70,7 +83,7 @@ public class UserProfileRouter {
                                                                 .response(responseBuilder()
                                                                                 .responseCode("400")
                                                                                 .description("Missing Required parameters")))
-                                .DELETE("/profile", this::deleteUser,
+                                .DELETE(String.format("/profile/{%s}", USER_ID_PATH_PARAM), this::deleteUser,
                                                 ops -> ops.operationId("getUser")
                                                                 .tag(USER_TAG_SWAGGER)
                                                                 .response(responseBuilder().responseCode("200")
@@ -80,7 +93,7 @@ public class UserProfileRouter {
                                                                 .parameter(parameterBuilder().in(ParameterIn.PATH)
                                                                                 .name(USER_ID_PATH_PARAM)
                                                                                 .description("User Id")))
-                                .PATCH("/profile", this::updateUser,
+                                .PATCH(String.format("/profile/{%s}", USER_ID_PATH_PARAM), this::updateUser,
                                                 ops -> ops.operationId("getUser")
                                                                 .tag(USER_TAG_SWAGGER)
                                                                 .response(responseBuilder().responseCode("200")

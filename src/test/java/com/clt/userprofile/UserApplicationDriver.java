@@ -1,6 +1,7 @@
 package com.clt.userprofile;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
@@ -13,7 +14,7 @@ import reactor.core.publisher.Mono;
 
 public class UserApplicationDriver {
     public enum UserParametersEnum {
-        USERNAME, NAME, SURNAME;
+        ID, USERNAME, NAME, SURNAME;
     }
 
     final WebTestClient client;
@@ -23,6 +24,31 @@ public class UserApplicationDriver {
     }
 
     public UserProfileEntity createUser(Map<UserParametersEnum, String> parametersMap) {
+        CreateUserRequest request = this.buildRandomUserRequest(parametersMap);
+        return client.post().uri("/profile")
+                .body(Mono.just(request), CreateUserRequest.class)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(UserProfileEntity.class)
+                .returnResult().getResponseBody();
+    }
+
+    public CreateUserRequest buildRandomUserRequest() {
+        return this.buildRandomUserRequest(Map.of());
+    }
+
+    public Optional<UserProfileEntity> findUser(Map<UserParametersEnum, String> parametersMap) {
+        var userId = parametersMap.get(UserParametersEnum.ID);
+        var invocationResult = client.get().uri("/profile/" + userId)
+                .exchange()
+                .expectBody(UserProfileEntity.class)
+                .returnResult();
+        return invocationResult.getStatus().is2xxSuccessful() ? 
+                Optional.of(invocationResult.getResponseBody())
+                : Optional.empty();
+    }
+
+    public CreateUserRequest buildRandomUserRequest(Map<UserParametersEnum, String> parametersMap) {
         Random random = new Random();
         String username = parametersMap.getOrDefault(UserParametersEnum.USERNAME, UUID.randomUUID().toString());
         String name = parametersMap.getOrDefault(UserParametersEnum.NAME, "name_" + random.nextInt());
@@ -31,11 +57,6 @@ public class UserApplicationDriver {
         request.setUserName(username);
         request.setName(name);
         request.setSurname(surname);
-        return client.post().uri("/profile")
-                .body(Mono.just(request), CreateUserRequest.class)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody(UserProfileEntity.class)
-                .returnResult().getResponseBody();
+        return request;
     }
 }

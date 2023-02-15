@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.0.2</version>
-        <relativePath/>
+        <relativePath />
         <!-- lookup parent from repository -->
     </parent>
     <groupId>com.clt</groupId>
@@ -16,7 +18,7 @@
     <properties>
         <java.version>17</java.version>
         <wiremock.version>2.35.0</wiremock.version>
-		<cucumber.version>7.11.1</cucumber.version>
+        <cucumber.version>7.11.1</cucumber.version>
     </properties>
 
     <dependencyManagement>
@@ -58,7 +60,7 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
             <version>2.0.2</version>
-        </dependency>    
+        </dependency>
 
 
         <dependency>
@@ -101,7 +103,7 @@
             <artifactId>cucumber-junit-platform-engine</artifactId>
             <scope>test</scope>
         </dependency>
-		<dependency>
+        <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-suite</artifactId>
             <scope>test</scope>
@@ -130,5 +132,32 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+
+        <profile>
+            <id>failsafe</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>3.0.0-M9</version>
+                        <configuration>
+                            <includes>
+                                <include>**/*AT</include>
+                            </includes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

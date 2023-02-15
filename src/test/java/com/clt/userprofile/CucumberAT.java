@@ -10,6 +10,6 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 @IncludeEngines("cucumber")
 @SelectClasspathResource("user-profile")
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty")
-public class CucumberAcceptanceTest {
+public class CucumberAT {
     
 }

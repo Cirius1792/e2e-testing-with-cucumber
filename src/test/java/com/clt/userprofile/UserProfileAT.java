@@ -8,7 +8,7 @@ import io.cucumber.spring.CucumberContextConfiguration;
 
 @CucumberContextConfiguration
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class UserProfileApplicationTests {
+class UserProfileAT {
 
 	@Test
 	void contextLoads() {

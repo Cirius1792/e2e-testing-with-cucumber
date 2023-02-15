@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  testing:
+  commit_stage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,6 +16,6 @@ jobs:
           java-version: 17 
       - name: Build
         run: mvn clean package
-      - name: Integration Test
+      - name: Component Test
         run: mvn integration-test -Pfailsafe
 

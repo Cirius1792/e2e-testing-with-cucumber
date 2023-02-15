@@ -1,6 +1,5 @@
-package com.clt.common.router;
+package com.clt.userprofile.router;
 
-import com.clt.common.router.response.ErrorResponse;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
@@ -13,6 +12,9 @@ import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.*;
+
+import com.clt.userprofile.router.request.ErrorResponse;
+
 import reactor.core.publisher.Mono;
 
 import java.util.Map;

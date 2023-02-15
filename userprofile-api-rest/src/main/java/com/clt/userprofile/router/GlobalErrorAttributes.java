@@ -1,4 +1,4 @@
-package com.clt.common.router;
+package com.clt.userprofile.router;
 
 import java.util.List;
 import java.util.Map;

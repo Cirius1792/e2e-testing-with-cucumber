@@ -8,6 +8,7 @@ import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import com.clt.userprofile.UserApplicationDriver;
+import com.clt.userprofile.UserApplicationDriver.UserParametersEnum;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -31,7 +32,7 @@ public class FindUserStepDefinition {
     @Given("A not existing user")
     public void a_not_existing_user() {
         userId = "999";
-        //TODO: Cancellazione dell'utente se già esiste
+        new UserApplicationDriver(client).deleteUser(Map.of(UserParametersEnum.ID, userId));
     }
 
     @When("I look for the user by id")

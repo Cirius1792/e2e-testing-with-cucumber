@@ -33,8 +33,10 @@ public class UserApplicationDriver {
                 .returnResult().getResponseBody();
     }
 
-    public CreateUserRequest buildRandomUserRequest() {
-        return this.buildRandomUserRequest(Map.of());
+    public void deleteUser(Map<UserParametersEnum, String> parametersMap) {
+        client.delete().uri("/profile/" + parametersMap.get(UserParametersEnum.ID))
+                .exchange()
+                .expectStatus().isOk();
     }
 
     public Optional<UserProfileEntity> findUser(Map<UserParametersEnum, String> parametersMap) {
@@ -43,8 +45,7 @@ public class UserApplicationDriver {
                 .exchange()
                 .expectBody(UserProfileEntity.class)
                 .returnResult();
-        return invocationResult.getStatus().is2xxSuccessful() ? 
-                Optional.of(invocationResult.getResponseBody())
+        return invocationResult.getStatus().is2xxSuccessful() ? Optional.of(invocationResult.getResponseBody())
                 : Optional.empty();
     }
 
@@ -59,4 +60,9 @@ public class UserApplicationDriver {
         request.setSurname(surname);
         return request;
     }
+
+    public CreateUserRequest buildRandomUserRequest() {
+        return this.buildRandomUserRequest(Map.of());
+    }
+
 }

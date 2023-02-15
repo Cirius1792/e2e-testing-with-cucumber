@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.clt.userprofile.error.UserProfileException;
 import com.clt.userprofile.error.UserProfileNotFoundException;
+import com.clt.userprofile.repository.UserProfileRepository;
 
 import reactor.core.publisher.Mono;
 

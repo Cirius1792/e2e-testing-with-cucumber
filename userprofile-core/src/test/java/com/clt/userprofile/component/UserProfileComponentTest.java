@@ -7,6 +7,8 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.clt.userprofile.repository.UserProfileRepository;
+
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 

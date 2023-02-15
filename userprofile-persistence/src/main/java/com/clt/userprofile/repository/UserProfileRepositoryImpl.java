@@ -1,7 +1,6 @@
 package com.clt.userprofile.repository;
 
 import com.clt.userprofile.component.UserProfileEntity;
-import com.clt.userprofile.component.UserProfileRepository;
 
 import reactor.core.publisher.Mono;
 

@@ -8,8 +8,8 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 
 import com.clt.userprofile.component.UserProfileComponent;
 import com.clt.userprofile.component.UserProfileComponentImpl;
-import com.clt.userprofile.component.UserProfileRepository;
 import com.clt.userprofile.repository.UserProfileJpaRepository;
+import com.clt.userprofile.repository.UserProfileRepository;
 import com.clt.userprofile.repository.UserProfileRepositoryImpl;
 import com.clt.userprofile.router.UserProfileRouter;
 

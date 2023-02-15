@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -7,10 +7,16 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.0.2</version>
-        <relativePath />
-        <!-- lookup parent from repository -->
+        <relativePath />    <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.clt</groupId>
+    <modules>
+        <module>userprofile-core</module>
+        <module>userprofile-persistence</module>
+        <module>userprofile-api-rest</module>
+        <module>userprofile-spring-runner</module>
+    </modules>
+    <packaging>pom</packaging>
+    <groupId>com.clt.userprofile</groupId>
     <artifactId>user-profile</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>user-profile</name>
@@ -20,7 +26,6 @@
         <wiremock.version>2.35.0</wiremock.version>
         <cucumber.version>7.11.1</cucumber.version>
     </properties>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -39,9 +44,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <dependencies>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -50,25 +53,20 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-r2dbc</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
             <version>2.0.2</version>
         </dependency>
-
-
         <dependency>
             <groupId>io.r2dbc</groupId>
             <artifactId>r2dbc-h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -84,20 +82,17 @@
             <artifactId>reactor-test</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>com.github.tomakehurst</groupId>
             <artifactId>wiremock-jre8</artifactId>
             <version>${wiremock.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit-platform-engine</artifactId>
@@ -116,24 +111,7 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
     <profiles>
-
         <profile>
             <id>failsafe</id>
             <build>
@@ -159,5 +137,4 @@
             </build>
         </profile>
     </profiles>
-
 </project>

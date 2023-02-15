@@ -46,4 +46,13 @@ public class UserProfileComponentImpl implements UserProfileComponent {
                 .log();
     }
 
+    @Override
+    public Mono<Void> deleteUser(String userId) {
+        if(StringUtils.isBlank(userId))
+            return Mono.error(() -> new UserProfileException("Invalid user id"));
+        return this.userProfileRepository.deleteUser(Long.valueOf(userId));
+    }
+
+    
+
 }

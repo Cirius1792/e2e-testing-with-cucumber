@@ -1,6 +1,5 @@
 package com.clt.userprofile.router;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -17,10 +16,8 @@ import com.clt.userprofile.router.request.CreateUserRequest;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
-@Slf4j
 public class CreateAndUpdateUserStepDefinition {
 
     @Autowired

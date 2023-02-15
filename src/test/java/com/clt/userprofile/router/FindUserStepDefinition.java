@@ -1,12 +1,9 @@
 package com.clt.userprofile.router;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
@@ -21,7 +18,7 @@ public class FindUserStepDefinition {
     @Autowired
     private WebTestClient client;
 
-    EntityExchangeResult invocationResult;
+    EntityExchangeResult<String> invocationResult;
     String userId;
 
     @Given("An existing user")

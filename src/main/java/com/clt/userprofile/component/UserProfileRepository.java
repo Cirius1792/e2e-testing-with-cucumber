@@ -7,4 +7,6 @@ public interface UserProfileRepository {
     Mono<UserProfileEntity> findUserByUsername(String username);
 
     Mono<UserProfileEntity> saveUser(UserProfileEntity entity);
+
+    Mono<Void> deleteUser(Long id);
 }

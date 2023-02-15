@@ -33,4 +33,11 @@ public class UserProfileRepositoryImpl implements UserProfileRepository {
                 .map(UserProfileModel::toEntity);
     }
 
+    @Override
+    public Mono<Void> deleteUser(Long id) {
+        return this.jpaRepository.deleteById(id);
+    }
+
+    
+
 }

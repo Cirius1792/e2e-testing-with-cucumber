@@ -14,10 +14,8 @@ import com.clt.userprofile.component.UserProfileEntity;
 import com.clt.userprofile.router.request.CreateUserRequest;
 
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
-@Slf4j
 public class UserProfileRouter {
         static final String USER_ID_PATH_PARAM = "id";
         static final String USER_TAG_SWAGGER = "User Profile";
@@ -42,8 +40,9 @@ public class UserProfileRouter {
         }
 
         Mono<ServerResponse> deleteUser(ServerRequest request) {
-                // TODO
-                return ServerResponse.ok().build();
+                return this.userProfileComponent.deleteUser(request.pathVariable(USER_ID_PATH_PARAM))
+                                .flatMap(el -> ServerResponse.ok().build());
+
         }
 
         Mono<ServerResponse> updateUser(ServerRequest request) {

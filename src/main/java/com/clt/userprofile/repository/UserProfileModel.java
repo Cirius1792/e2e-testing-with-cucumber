@@ -5,7 +5,6 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import com.clt.userprofile.component.UserProfileEntity;
 
-import jakarta.annotation.Generated;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

@@ -1,13 +1,13 @@
 Feature: Can find Existing Users
 
   Scenario: Look for an existing user
-    Given An existing user having id "0"
-    When I look for the user "0"
-    Then I should receive receive 200
+    Given An existing user
+    When I look for the user by id
+    Then I should receive 200
     
   Scenario: Look for a not existing user
-    Given A not existing user having id "999"
-    When I look for the user "999"
-    Then I should receive receive 404
+    Given A not existing user
+    When I look for the user by id
+    Then I should receive 404
 
 

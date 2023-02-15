@@ -16,6 +16,6 @@ jobs:
           java-version: 17 
       - name: Build
         run: mvn clean package
-      - name: Component Test
+      - name: Acceptance Test
         run: mvn integration-test -Pfailsafe
 

@@ -2,6 +2,7 @@ package com.clt.userprofile.router;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,41 +24,46 @@ public class CreateAndUpdateUserStepDefinition {
 
     @Autowired
     private WebTestClient client;
-    private Map<String, UserProfileEntity> users = new HashMap<>();
-    private Map<String, EntityExchangeResult> results = new HashMap<>();
+    UserProfileEntity user;
+    EntityExchangeResult result;
 
-    @Given("a new user having username {string}")
-    public void a_new_user_having_username(String username) {
-        var user = UserProfileEntity.builder()
-                .userName(username)
+    @Given("A new user that wants to register")
+    public void a_new_user_having_username() {
+        user = UserProfileEntity.builder()
+                .userName(UUID.randomUUID().toString())
                 .build();
-        this.users.put(username, user);
     }
 
-    @Given("exists a user having username {string}")
-    public void exists_a_user_having_username(String username) {
+    @Given("The user has not a unique username")
+    public void the_user_has_not_a_unique_username() {
+        // Doing so we ensure that will already exist a user with the given username
         var driver = new UserApplicationDriver(client);
-        driver.createUser(Map.of(UserApplicationDriver.UserParametersEnum.USERNAME, username));
+        driver.createUser(Map.of(UserApplicationDriver.UserParametersEnum.USERNAME, user.getUserName()));
     }
 
-    @When("the user having username {string} tries to register")
-    public void the_new_tries_to_register(String username) {
+    @Given("The user has a unique username")
+    public void the_user_has_a_unique_username() {
+        // No operation is required as the username is generated randomly
+    }
+
+    @When("The user tries to register")
+    public void the_new_tries_to_register() {
         CreateUserRequest request = new CreateUserRequest();
-        request.setUserName(username);
+        request.setUserName(user.getUserName());
         var result = client.post().uri("/profile")
                 .body(Mono.just(request), CreateUserRequest.class)
                 .exchange()
                 .expectBody(UserProfileEntity.class)
                 .returnResult();
-        this.results.put(username, result);
+        this.result = result;
     }
 
-    @Then("the outcome of the registration of {string} is {string}")
-    public void the_outcome_of_the_registration_of_is(String username, String outcome) {
+    @Then("the outcome of the registration is {string}")
+    public void the_outcome_of_the_registration_of_is(String outcome) {
         if ("OK".equals(outcome))
-            Assertions.assertTrue(this.results.get(username).getStatus().is2xxSuccessful());
+            Assertions.assertTrue(this.result.getStatus().is2xxSuccessful());
         else
-            Assertions.assertTrue(this.results.get(username).getStatus().isError());
+            Assertions.assertTrue(this.result.getStatus().isError());
     }
 
 }

@@ -28,7 +28,7 @@ public class CreateAndUpdateUserStepDefinition {
     EntityExchangeResult result;
 
     @Given("A new user that wants to register")
-    public void a_new_user_having_username() {
+    public void a_new_user_that_wants_to_register() {
         user = UserProfileEntity.builder()
                 .userName(UUID.randomUUID().toString())
                 .build();
@@ -47,7 +47,7 @@ public class CreateAndUpdateUserStepDefinition {
     }
 
     @When("The user tries to register")
-    public void the_new_tries_to_register() {
+    public void the_user_tries_to_register() {
         CreateUserRequest request = new CreateUserRequest();
         request.setUserName(user.getUserName());
         var result = client.post().uri("/profile")
@@ -58,8 +58,8 @@ public class CreateAndUpdateUserStepDefinition {
         this.result = result;
     }
 
-    @Then("the outcome of the registration is {string}")
-    public void the_outcome_of_the_registration_of_is(String outcome) {
+    @Then("the outcome of the operation is {string}")
+    public void the_outcome_of_the_operation_of_is(String outcome) {
         if ("OK".equals(outcome))
             Assertions.assertTrue(this.result.getStatus().is2xxSuccessful());
         else

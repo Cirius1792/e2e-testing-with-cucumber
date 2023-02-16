@@ -1,14 +1,14 @@
 # Acceptance Tests with Cucumber and Spring Boot
 
 ## Description 
-This projects shows how to use [Cucumber](https://cucumber.io/) with Spring Boot.
+This project shows how to use [Cucumber](https://cucumber.io/) with Spring Boot.
 
 The Business Logic implements basics CRUD operations for a User master data management system. 
 
 The project is organized as follows: 
-- core: main library implementing the business logic
+- core: the main library implementing the business logic
 - persistence: concrete implementation of the repository interface in the core
-- api-rest: exposes the funcitonality implemented in the core as rest apis. Implemented with Spring Web Flux
+- api-rest: exposes the functionality implemented in the core as rest apis. Implemented with Spring Web Flux
 - spring-runner: contains the application configuration and the main class
 
 ## Integrating Cucumber 
@@ -33,9 +33,9 @@ Under
 
  ```
 
-states that if a new user tries to register with a username which is already not taken, it should be able to. If he's trying to register to the system with a username which is already taken, than the operation should fail. 
+states that if a new user tries to register with a username which is not been taken yet, it should be able to. If he's trying to register to the system with a username which is already taken then the operation should fail. 
 
-More detail on how translate a so defined specification in an executable test case can be find [here](https://cucumber.io/docs/guides/10-minute-tutorial/?lang=java). While there are required few more steps to make cucumber work with Spring levereging the CDI advantages that it offers. 
+More details on how to translate this type of specification in an executable test case can be found [here](https://cucumber.io/docs/guides/10-minute-tutorial/?lang=java). Few more steps are required to make cucumber work with Spring leveraging the CDI advantages that it offers. 
 
 First, the cucumber-spring dependency is required: 
 ```xml
@@ -49,24 +49,25 @@ First, the cucumber-spring dependency is required:
 The full documentation can be found [here](https://github.com/cucumber/cucumber-jvm/tree/main/cucumber-spring).
 
 Then, we need to annotate a glue class that will start the application context in which our cucumber Scenarios will be executed. 
+
 In our case, for example: 
 ```java
 @CucumberContextConfiguration
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class UserProfileAT {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }
 ```
 ## Make our Cucumber Scenarios run during the Integration Test Phase
-Considering that in our case the Cucuber tests interact with a fully running instance of the application, as we are using them as Acceptance Tests, the execution time of the test cases will be considerably higher than the execution time of a usual JUnit test. Considering that we want our build to be as fast as possible and to trigger, initially, only the unit tests, we need a way to tell maven to run only the unit tests insthead of our Acceptance Test. 
+Considering that in our case the Cucumber tests interact with a fully running instance of the application, as we are using them as Acceptance Tests, the execution time of the test cases will be considerably higher than the execution time of a usual JUnit test. Considering that we want our build to be as fast as possible and to trigger, initially, only the unit tests, we need a way to tell maven to run only the unit tests instead of our Acceptance Test during simple builds. 
 
-One way to reach this goal is to use the failsafe maven plug-in in addition to the surfire plugin. Failsafe, in contrast with surfire, executes by default all the test cases having a name like *IT.java.
+One way to reach this goal is to use the failsafe maven plug-in in addition to the surefire plugin. Failsafe, in contrast with surefire, executes by default all the test cases having a name like *IT.java.
 
-In this specific example we configured failsafe to run test cases having name *AT.java as we are using it to run our acceptance tests. 
+In this specific example, we configured failsafe to run test cases having the name *AT.java as we are using it to run our acceptance tests. 
 Therefore we add to the pom of the application: 
 
 ```xml
@@ -106,7 +107,7 @@ mvn integration-test -Pfailsafe
 Maven will run under the profile "failsafe" configured to execute our Acceptance Test. 
 
 ## Configuring the CI/CD with the GitHub Actions
-All we need to do is to instruct the pipeline to spin up the proper environment and then launch the same command used on our local machine to build the application an run the tests: 
+All we need to do is to instruct the pipeline to spin up the proper environment and then launch the same command used on our local machine to build the application and run the tests: 
 
 ```yaml
 jobs:

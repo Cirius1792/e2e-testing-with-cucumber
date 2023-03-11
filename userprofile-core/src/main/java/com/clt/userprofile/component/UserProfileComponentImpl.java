@@ -8,6 +8,7 @@ import reactor.core.publisher.Mono;
 
 public class UserProfileComponentImpl implements UserProfileComponent {
 
+  private static final int DESCRIPTION_MAX_LEN = 255;
   final UserProfileRepository userProfileRepository;
 
   public UserProfileComponentImpl(UserProfileRepository userProfileRepository) {
@@ -26,6 +27,11 @@ public class UserProfileComponentImpl implements UserProfileComponent {
   public Mono<UserProfileEntity> createUser(UserProfileEntity newUser) {
     if (StringUtils.isBlank(newUser.getUserName()))
       return Mono.error(new IllegalArgumentException("Username can't be null or empty"));
+    if (StringUtils.isNotBlank(newUser.getDescription())
+        && newUser.getDescription().length() > DESCRIPTION_MAX_LEN)
+      return Mono.error(
+          new UserProfileException(
+              String.format("Field Description is too long. Max Length: %d", DESCRIPTION_MAX_LEN)));
     return userProfileRepository
         .findUserByUsername(newUser.getUserName())
         .defaultIfEmpty(newUser)
@@ -52,9 +58,17 @@ public class UserProfileComponentImpl implements UserProfileComponent {
   }
 
   @Override
-  public Mono<Void> deleteUser(String userId) {
+  public Mono<UserProfileEntity> deleteUser(String userId) {
     if (StringUtils.isBlank(userId))
       return Mono.error(() -> new UserProfileException("Invalid user id"));
-    return this.userProfileRepository.deleteUser(Long.valueOf(userId));
+    return Mono.from(this.userProfileRepository.findUserById(Long.valueOf(userId)))
+        .switchIfEmpty(
+            Mono.error(() -> new UserProfileNotFoundException("The user does not exist")))
+        .map(
+            el -> {
+              // FIXME: Missing mono subscription, therefore the element is never deleted
+              this.userProfileRepository.deleteUser(Long.valueOf(userId));
+              return el;
+            });
   }
 }

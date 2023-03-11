@@ -84,8 +84,8 @@ public class UserProfileComponentTest {
     var result = this.userProfileComponent.deleteUser("0");
 
     // Should return the deleted user
-    verify(this.userProfileRepository, times(1)).deleteUser(eq(0L));
     StepVerifier.create(result).expectNext(user0).verifyComplete();
+    verify(this.userProfileRepository, times(1)).deleteUser(eq(0L));
   }
 
   @Test

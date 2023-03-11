@@ -64,11 +64,6 @@ public class UserProfileComponentImpl implements UserProfileComponent {
     return Mono.from(this.userProfileRepository.findUserById(Long.valueOf(userId)))
         .switchIfEmpty(
             Mono.error(() -> new UserProfileNotFoundException("The user does not exist")))
-        .map(
-            el -> {
-              // FIXME: Missing mono subscription, therefore the element is never deleted
-              this.userProfileRepository.deleteUser(Long.valueOf(userId));
-              return el;
-            });
+        .flatMap( el -> this.userProfileRepository.deleteUser(el.getId()).transform(v -> Mono.just(el)));
   }
 }

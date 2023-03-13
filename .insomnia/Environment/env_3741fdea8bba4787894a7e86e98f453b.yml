@@ -1,13 +1,13 @@
-_id: env_env_5864898f7b1a8d34840d7cc5effa425e65bc0b85_sub__973503d5
+_id: env_3741fdea8bba4787894a7e86e98f453b
 type: Environment
 parentId: env_5864898f7b1a8d34840d7cc5effa425e65bc0b85
-modified: 1678719887002
-created: 1678523482379
-name: OpenAPI env localhost:8080
+modified: 1678719895350
+created: 1678715068712
+name: test
 data:
   scheme: http
   base_path: ""
-  host: localhost
+  host: service
   port: "8080"
 dataPropertyOrder:
   "&":
@@ -17,4 +17,4 @@ dataPropertyOrder:
     - port
 color: null
 isPrivate: false
-metaSortKey: 1678523482379
+metaSortKey: 1678715068712

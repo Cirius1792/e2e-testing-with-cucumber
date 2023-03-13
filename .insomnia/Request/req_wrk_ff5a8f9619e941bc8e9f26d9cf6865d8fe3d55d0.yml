@@ -1,7 +1,7 @@
 _id: req_wrk_ff5a8f9619e941bc8e9f26d9cf6865d8fe3d55d0
 type: Request
 parentId: wrk_ff5a8f9619e941bc8e9f26d9cf6865d8
-modified: 1678708981328
+modified: 1678715033833
 created: 1678523482365
 url: "{{ base_url }}/profile"
 name: Create User
@@ -14,7 +14,7 @@ body:
       "userName": "{% fakeInternet 'userName' %}",
       "name": "{% randomName 'firstName', 'male' %}",
       "surname": "{% randomName 'lastName', 'male' %}",
-      "description": "{% randomLorem 'paragraph', 3 %}"
+      "description": "{% randomLorem 'paragraph', 1 %}"
     }
 parameters: []
 headers:

@@ -1,0 +1,33 @@
+_id: req_wrk_ff5a8f9619e941bc8e9f26d9cf6865d8289cda14
+type: Request
+parentId: wrk_ff5a8f9619e941bc8e9f26d9cf6865d8
+modified: 1678709084620
+created: 1678523482345
+url: "{{ base_url }}/profile/{% response 'body',
+  'req_wrk_ff5a8f9619e941bc8e9f26d9cf6865d8fe3d55d0', 'b64::JC5pZA==::46b',
+  'never', 60 %}"
+name: Update User
+description: ""
+method: PATCH
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "userName": "{% fakeInternet 'userName' %}",
+      "name": "{% randomName 'firstName', 'male' %}",
+      "surname": "{% randomName 'lastName', 'male' %}",
+      "description": "{% randomLorem 'paragraph', 3 %}"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1678523482345
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

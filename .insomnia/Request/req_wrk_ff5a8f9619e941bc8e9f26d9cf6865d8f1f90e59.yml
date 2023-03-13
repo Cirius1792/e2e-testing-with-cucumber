@@ -1,0 +1,23 @@
+_id: req_wrk_ff5a8f9619e941bc8e9f26d9cf6865d8f1f90e59
+type: Request
+parentId: wrk_ff5a8f9619e941bc8e9f26d9cf6865d8
+modified: 1678708959336
+created: 1678523482353
+url: "{{ base_url }}/profile/{% response 'body',
+  'req_wrk_ff5a8f9619e941bc8e9f26d9cf6865d8fe3d55d0', 'b64::JC5pZA==::46b',
+  'always', 60 %}"
+name: Create And Delete User
+description: ""
+method: DELETE
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1678523482353
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

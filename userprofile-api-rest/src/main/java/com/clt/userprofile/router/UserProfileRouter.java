@@ -40,9 +40,10 @@ public class UserProfileRouter {
   }
 
   Mono<ServerResponse> deleteUser(ServerRequest request) {
-    return this.userProfileComponent
-        .deleteUser(request.pathVariable(USER_ID_PATH_PARAM))
-        .flatMap(el -> ServerResponse.ok().build());
+    return ServerResponse.ok()
+        .body(
+            this.userProfileComponent.deleteUser(request.pathVariable(USER_ID_PATH_PARAM)),
+            UserProfileEntity.class);
   }
 
   Mono<ServerResponse> updateUser(ServerRequest request) {

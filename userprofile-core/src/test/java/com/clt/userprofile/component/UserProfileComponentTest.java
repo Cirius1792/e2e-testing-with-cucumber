@@ -2,6 +2,8 @@ package com.clt.userprofile.component;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.clt.userprofile.repository.UserProfileRepository;
@@ -68,6 +70,22 @@ public class UserProfileComponentTest {
                 .surname(surname)
                 .build())
         .verifyComplete();
+  }
+
+  @Test
+  public void should_delete_a_user() {
+    // Given an existing user
+    UserProfileEntity user0 =
+        new UserProfileEntity(0L, "test-user", "Mario", "Rossi", "He used to cheer");
+    when(userProfileRepository.findUserById(eq(0L))).thenReturn(Mono.just(user0));
+
+    // When the user is deleted
+    when(userProfileRepository.deleteUser(eq(0L))).thenReturn(Mono.empty());
+    var result = this.userProfileComponent.deleteUser("0");
+
+    // Should return the deleted user
+    StepVerifier.create(result).expectNext(user0).verifyComplete();
+    verify(this.userProfileRepository, times(1)).deleteUser(eq(0L));
   }
 
   @Test

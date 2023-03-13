@@ -9,5 +9,5 @@ public interface UserProfileComponent {
 
   Mono<UserProfileEntity> updateUser(UserProfileEntity user);
 
-  Mono<Void> deleteUser(String userId);
+  Mono<UserProfileEntity> deleteUser(String userId);
 }

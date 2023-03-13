@@ -28,7 +28,9 @@ public class FindUserStepDefinition {
   @Given("A not existing user")
   public void a_not_existing_user() {
     userId = "999";
-    new UserApplicationDriver(client).deleteUser(Map.of(UserParametersEnum.ID, userId));
+    var driver = new UserApplicationDriver(client);
+    if (driver.findUser(Map.of(UserParametersEnum.ID, userId)).isPresent())
+      driver.deleteUser(Map.of(UserParametersEnum.ID, userId));
   }
 
   @When("I look for the user by id")

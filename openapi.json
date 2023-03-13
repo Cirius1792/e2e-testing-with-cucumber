@@ -1,0 +1,187 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "OpenAPI definition",
+        "version": "v0"
+    },
+    "servers": [
+        {
+            "url": "http://8080-cirius1792-e2etestingwi-w8jxdcjw268.ws-eu90.gitpod.io",
+            "description": "Generated server url"
+        }
+    ],
+    "paths": {
+        "/profile": {
+            "post": {
+                "tags": [
+                    "User Profile"
+                ],
+                "operationId": "createUser",
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserProfileEntity"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Missing Required parameters"
+                    }
+                }
+            }
+        },
+        "/profile/{id}": {
+            "get": {
+                "tags": [
+                    "User Profile"
+                ],
+                "operationId": "getUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User Id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserProfileEntity"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "The user does not exists"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "User Profile"
+                ],
+                "operationId": "getUser_2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User Id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserProfileEntity"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "The user does not exists"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "User Profile"
+                ],
+                "operationId": "getUser_1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User Id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserProfileEntity"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "The user does not exists"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CreateUserRequest": {
+                "type": "object",
+                "properties": {
+                    "userName": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "surname": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserProfileEntity": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "userName": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "surname": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

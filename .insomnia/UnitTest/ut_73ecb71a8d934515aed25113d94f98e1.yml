@@ -1,0 +1,10 @@
+_id: ut_73ecb71a8d934515aed25113d94f98e1
+type: UnitTest
+parentId: uts_5ac6d6af35eb459bae1ead50f0f60575
+modified: 1678722659376
+created: 1678722655952
+requestId: req_a673026b45d34ddd982332e821e7072e
+name: Is Up And Running
+code: |-
+  const response1 = await insomnia.send();
+  expect(response1.status).to.equal(200);

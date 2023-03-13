@@ -1,0 +1,23 @@
+_id: req_d2365741daf64a6699065fee679d073d
+type: Request
+parentId: wrk_ff5a8f9619e941bc8e9f26d9cf6865d8
+modified: 1678709149767
+created: 1678709129899
+url: "{{ base_url }}/profile/{% response 'body',
+  'req_wrk_ff5a8f9619e941bc8e9f26d9cf6865d8f1f90e59', 'b64::JC5pZA==::46b',
+  'never', 60 %}"
+name: Get Deleted User By Id
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1678523482354.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

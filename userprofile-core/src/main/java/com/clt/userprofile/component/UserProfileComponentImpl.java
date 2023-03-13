@@ -59,11 +59,11 @@ public class UserProfileComponentImpl implements UserProfileComponent {
 
   @Override
   public Mono<UserProfileEntity> deleteUser(String userId) {
-    if (StringUtils.isBlank(userId))
-      return Mono.error(() -> new UserProfileException("Invalid user id"));
-    return Mono.from(this.userProfileRepository.findUserById(Long.valueOf(userId)))
-        .switchIfEmpty(
-            Mono.error(() -> new UserProfileNotFoundException("The user does not exist")))
-        .flatMap( el -> this.userProfileRepository.deleteUser(el.getId()).transform(v -> Mono.just(el)));
+    return this.retrieveUserProfile(userId)
+        .map(
+            el -> {
+              this.userProfileRepository.deleteUser(el.getId()).subscribe();
+              return el;
+            });
   }
 }

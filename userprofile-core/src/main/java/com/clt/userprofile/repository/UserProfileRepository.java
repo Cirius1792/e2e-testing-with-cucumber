@@ -11,5 +11,4 @@ public interface UserProfileRepository {
   Mono<UserProfileEntity> saveUser(UserProfileEntity entity);
 
   Mono<Void> deleteUser(Long id);
-  Mono<UserProfileEntity> removeUser(Long id);
 }

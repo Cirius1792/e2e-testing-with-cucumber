@@ -13,10 +13,10 @@ body:
   mimeType: application/json
   text: |-
     {
-      "userName": "{% fakeInternet 'userName' %}",
-      "name": "{% randomName 'firstName', 'male' %}",
-      "surname": "{% randomName 'lastName', 'male' %}",
-      "description": "{% randomLorem 'paragraph', 3 %}"
+      "userName": "mario.bianchi",
+      "name": "Mario",
+      "surname": "Bianchi",
+      "description": "ipsum lorem etc. etc."
     }
 parameters: []
 headers:

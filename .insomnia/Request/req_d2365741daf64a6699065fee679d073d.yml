@@ -5,7 +5,7 @@ modified: 1678709149767
 created: 1678709129899
 url: "{{ base_url }}/profile/{% response 'body',
   'req_wrk_ff5a8f9619e941bc8e9f26d9cf6865d8f1f90e59', 'b64::JC5pZA==::46b',
-  'never', 60 %}"
+  'always', 60 %}"
 name: Get Deleted User By Id
 description: ""
 method: GET

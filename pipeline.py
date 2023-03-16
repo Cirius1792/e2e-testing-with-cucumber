@@ -52,9 +52,11 @@ async def test():
 
         test_runner = (
             client.container()
-            .from_("alpine")
-            .with_service_binding("www", run_container)
-            .with_exec(["wget", "-O-", "http://www:8080/actuator/health"])
+            .from_("kong/inso")
+            .with_mounted_directory("/var/temp", client.host().directory("."))
+            .with_service_binding("service", run_container)
+            .with_exec(["run", "test", "User CRUD Test Suite", "-w", "/var/temp", "--env", "test"])
+            #.with_exec(["wget", "-O-", "http://service:8080/actuator/health"])
         )
 
         outcome = await test_runner.stdout()

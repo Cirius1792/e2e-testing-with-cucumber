@@ -1,7 +1,7 @@
 _id: req_wrk_ff5a8f9619e941bc8e9f26d9cf6865d8fe3d55d0
 type: Request
 parentId: wrk_ff5a8f9619e941bc8e9f26d9cf6865d8
-modified: 1678715033833
+modified: 1679129004843
 created: 1678523482365
 url: "{{ base_url }}/profile"
 name: Create User
@@ -11,7 +11,7 @@ body:
   mimeType: application/json
   text: |-
     {
-      "userName": "mario.rossi",
+      "userName": "{% uuid 'v4' %}",
       "name": "Mario",
       "surname": "Rossi",
       "description": "lorem ipsum etc. etc."

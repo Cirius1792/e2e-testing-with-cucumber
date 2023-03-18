@@ -45,7 +45,6 @@ async def test():
             .from_("eclipse-temurin:17-jdk-alpine")
             .with_file("/my_service/app.jar", artifact)
             .with_workdir("/my_service")
-            .with_exec(["java", "--version"])
             .with_exec(["java", "-jar", "app.jar"])
             .with_exposed_port(8080)
         )
@@ -56,7 +55,6 @@ async def test():
             .with_mounted_directory("/var/temp", client.host().directory("."))
             .with_service_binding("service", run_container)
             .with_exec(["run", "test", "User CRUD Test Suite", "-w", "/var/temp", "--env", "test"])
-            #.with_exec(["wget", "-O-", "http://service:8080/actuator/health"])
         )
 
         outcome = await test_runner.stdout()
